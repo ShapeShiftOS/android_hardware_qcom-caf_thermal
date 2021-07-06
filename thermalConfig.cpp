@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -41,6 +41,76 @@ namespace thermal {
 namespace V2_0 {
 namespace implementation {
 	constexpr std::string_view socIDPath("/sys/devices/soc0/soc_id");
+
+	std::vector<std::string> cpu_sensors_439 =
+	{
+		"apc1-cpu0-usr",
+		"apc1-cpu1-usr",
+		"apc1-cpu2-usr",
+		"apc1-cpu3-usr",
+		"cpuss0-usr",
+		"cpuss0-usr",
+		"cpuss0-usr",
+		"cpuss0-usr",
+	};
+
+	std::vector<struct target_therm_cfg> sensor_cfg_439 =
+	{
+		{
+			TemperatureType::CPU,
+			cpu_sensors_439,
+			"",
+			95000,
+			115000,
+			95000,
+			true,
+		},
+		{
+			TemperatureType::GPU,
+			{ "gpu-usr" },
+			"GPU",
+			95000,
+			115000,
+			95000,
+			true,
+		},
+		{
+			TemperatureType::SKIN,
+			{ "quiet-therm-adc" },
+			"skin",
+			40000,
+			95000,
+			40000,
+			true,
+		},
+		{
+			TemperatureType::BCL_VOLTAGE,
+			{ "vbat_adc" },
+			"vbat",
+			3200,
+			3000,
+			3200,
+			false,
+		},
+		{
+			TemperatureType::BCL_CURRENT,
+			{ "ibat-high" },
+			"ibat",
+			4200,
+			4400,
+			4200,
+			true,
+		},
+		{
+			TemperatureType::BCL_PERCENTAGE,
+			{ "soc" },
+			"soc",
+			10,
+			2,
+			10,
+			false,
+		},
+	};
 
 	std::vector<std::string> cpu_sensors_bengal =
 	{
@@ -707,6 +777,12 @@ namespace implementation {
 
 	const std::unordered_map<int, std::vector<struct target_therm_cfg>>
 		msm_soc_map = {
+		{353, sensor_cfg_439},
+		{354, sensor_cfg_439},
+		{363, sensor_cfg_439},
+		{364, sensor_cfg_439},
+		{416, sensor_cfg_439},
+		{437, sensor_cfg_439},
 		{417, sensor_cfg_bengal}, // bengal
 		{420, sensor_cfg_bengal},
 		{444, sensor_cfg_bengal},
@@ -733,9 +809,12 @@ namespace implementation {
 		{415, lahaina_common}, // lahaina
 		{439, lahaina_common}, // lahainap
 		{456, lahaina_common}, // lahaina-atp
+		{501, lahaina_common},
+		{502, lahaina_common},
 		{450, lahaina_common}, // shima
 		{454, sensor_cfg_holi}, // holi
 		{475, sensor_cfg_yupik}, // yupik
+		{515, sensor_cfg_yupik}, // YUPIK-LTE
 	};
 
 	const std::unordered_map<int, std::vector<struct target_therm_cfg>>
@@ -744,6 +823,8 @@ namespace implementation {
 		{415, lahaina_specific}, // lahaina
 		{439, lahaina_specific}, // lahainap
 		{456, lahaina_specific}, // lahaina-atp
+		{501, lahaina_specific},
+		{502, lahaina_specific},
 		{450, shima_specific}, // shima
 	};
 
